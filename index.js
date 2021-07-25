@@ -13,7 +13,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 app.get("/", (req, res) => {  
-  res.send("Welcome to Phonebook API")
+  res.sendFile('doc/index.html', {root: __dirname })
 });
 
 
@@ -23,11 +23,10 @@ app.get("/getallphoneentries", (req, res) => {
     if (err) {
       return res.status(400).json({
         error: true,
-        message: err.toString()
+        message: "Unable to fetch"
       });
     }
     res.json({
-      error: false,
       phoneEntries: data,
     })
   })
@@ -40,14 +39,13 @@ app.post("/createphoneentry", (req, res) => {
   
   createPhoneEntry(phoneEntry, (err, data) => {
     if (err) {
-      return res.status(400).json({
+      return res.json({
         error: true,
-        message: err.toString()
+        message: "Phone entry addition failed"
       });
     }
     res.json({
-      error: false,
-      message: "Add Successfully",
+      message: "Phone entry addition successful",
     })
   })
 })
@@ -60,10 +58,10 @@ app.post("/updatephoneentry", (req, res) => {
       if (err) {
         return res.status(400).json({
           error: true,
-          message: "Update failed"
+          message: "Phone entry update failed"
         });
       }
-      res.json({ status: "Updated" });
+      res.json({ message: "Phone entry update Successful" });
     })
 
 });
